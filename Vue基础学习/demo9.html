@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>局部注册组件</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<div id="view">
+		<my-component></my-component>
+	</div>
+	<script>
+		var Child = {
+			template:'<div>this is my component</div>'
+		};
+		var app = new Vue({
+			el:'#view',
+			components:{
+				'my-component':Child
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue扩展</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+<div id="mount-point"></div>
+<!-- Vue.extend -->
+<script>
+		var Profile = Vue.extend({
+			template:'<p>{{ firstName }} {{ lastName }} </p>',
+			data: function(){
+				return {
+					firstName:'张三',
+					lastName:'李四'
+				}
+			},
+		})
+		new Profile().$mount('#mount-point');
+	
+</script>
+</body>	
+</html>
