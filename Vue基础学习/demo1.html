@@ -6,9 +6,24 @@
 	<script src="../vue.js"></script>
 </head>
 <body>	
-	<!-- vue的数据渲染 -->
+	<!-- vue的数据渲染 共有三种方式，分别是：v-html v-text {{}} -->
 	<div id="app">
-		
+		<p v-html="message"></p>
+		<p v-text="msg"></p>
+		<p>{{ hometown }}</p>
+		<p v-html="difference"></p>
+		<p v-text="difference"></p>
 	</div>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				message:'hello zhimin',
+				msg:'hello beijing',
+				hometown:'datong',
+				difference:'<span>this is v-html 和v-text的区别</span>'
+			}
+		})
+	</script>
 </body>
 </html>
