@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>属性绑定</title>
+	<style>
+	.InfoRed{
+		color:red;
+	}
+	.active{
+		color:yellow;
+	}
+	</style>
+	<script src="../vue.js"></script>
+</head>
+<body>
+<!-- v-bind 进行属性绑定 -->
+	<div id="app">
+		<p v-bind:class="InfoClass">InfoClass</p>
+		<p :class='{active:isActive}'>hello </p>
+		<button v-on:click="doThis">点击事件修改class</button>
+	</div>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				InfoClass:'InfoRed',
+				isActive:true
+			},
+			methods:{
+				doThis:function(){
+					this.isActive = !this.isActive;
+					console.log(this.isActive);
+				}
+			}
+		})
+	</script>
+</body>
+</html>

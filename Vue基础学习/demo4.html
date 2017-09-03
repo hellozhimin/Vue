@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件绑定</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<!-- 事件绑定v-bind -->
+	<div id="app">
+		<button v-on:click="doThis">alert this</button>
+	</div>
+	<script>
+		new Vue({
+			el:'#app',
+			methods:{
+				doThis:function(){
+					alert("hello");
+				}
+			}
+		})
+	</script>
+</body>
+</html>
