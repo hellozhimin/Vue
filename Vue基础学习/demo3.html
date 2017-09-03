@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>v-for</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<!-- v-for使用 -->
+	<div id="app">
+		<ul>
+			<li v-for="item in opts">
+				{{item.text}}
+			</li>
+		</ul>
+	</div>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				opts:[
+					{text:'html'},
+					{text:'css'},
+					{text:'js'}
+				]
+			}
+		})
+	</script>
+</body>
+</html>
