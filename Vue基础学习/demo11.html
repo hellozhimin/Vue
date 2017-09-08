@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo11</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<div id="watch-example">
+		<p>
+			Ask a yes/no question:
+			<input type="text" v-model="question">
+		</p>
+		<p>{{ answer }}</p>
+	</div>
+	<script>
+		var watchExampleVM = new Vue({
+			el:'#watch-example',
+			data:{
+				question:'',
+				answer:'I cannot give you an answer until you ask a question'
+			},
+			watch:{
+				question:function(newquestion){
+					this.answer = 'Waiting for you to stop typing...'
+				}
+			}
+		})
+	</script>
+</body>
+</html>

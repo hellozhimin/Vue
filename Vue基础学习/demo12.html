@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绑定HTML css</title>
+	<script src="../vue.js"></script>
+<body>
+	<div id="app">
+	<!--  -->
+		<div class="static" :class="{acitve:isActive,'text-danger':hasError}">hello </div>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data:function(){
+				return {
+					isActive:1,
+					hasError:0
+				}
+			}
+		})
+	</script>
+</body>
+</html>
