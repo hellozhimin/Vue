@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>过渡</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<button @click='show = !show'>{{ ShowOrHide }}</button>
+	<transition name="fade">
+		<p v-show="show">i am show</p>
+	</transition>
+</div>
+<script>
+	var vm = new Vue({
+		el:'#app',
+		data:function(){
+			return {
+				show:true
+			}
+		},
+		computed:{
+			ShowOrHide:function(){
+				if(this.show){
+					return "hide";
+				}else{
+					return "display";
+				}
+			}
+		}
+	});
+</script>
+	
+<style>
+	.fade-enter-active,.fade-leave-active{
+		transition:opacity .5s ease-out;
+	}
+	.fade-enter{
+		transform: translateY(-500px);
+		opacity:0;
+	}
+	.fade-leave-active{
+		transform:translateY(500px);
+		opacity:0;
+	}
+</style>
+</body>
+</html>
