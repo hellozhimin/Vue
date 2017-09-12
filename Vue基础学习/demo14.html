@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用key管理可重用的元素</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div v-if="loginType === 'UserName'" >
+			<label for="">UserName:</label>
+			<input type="text" placeholder="Enter your name" key="username-input">
+		</div>
+		<div v-else>
+			<label for="">Email</label>
+			<input type="text" placeholder="Enter your email address" key="email-input">
+		</div>
+		<button @click="toggleFn">toggle</button>
+	</div>
+	<script>
+		var vm = new Vue({
+			el: "#app",
+			data: function(){
+				return {
+					loginType:'UserName'
+				}
+			},
+			methods: {
+				toggleFn:function(){
+					(this.loginType === "UserName") ? this.loginType = 'Email': this.loginType = "UserName";
+					console.log("this.loginType: " + this.loginType)
+				}
+			}
+		})	
+	</script>
+</body>
+</html>
