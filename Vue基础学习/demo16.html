@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全局自定义组件</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p v-demo="{color:'red',text:'hello!'}">hello world</p>
+	</div>
+	<script>
+		Vue.directive('demo',function(el,binding){
+			console.log(binding.value.color);
+			console.log(binding.value.text);
+			el.style.color = binding.value.color;
+		})
+		var vm = new Vue({
+			el:'#app',
+			data:function(){
+				return {
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

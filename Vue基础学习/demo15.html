@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义指令</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p v-css="{color:'red','font-size':'24px'}">hello world</p>
+		<input type="text" v-focus>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data:function(){
+				return {
+
+				}
+			},
+			directives:{
+				css:{
+					inserted(el,binding){
+						console.log(el,binding);
+						let styleObj = binding.value;
+						console.log("sytleObj: " + styleObj);
+						let arr = [];
+						for(let key in styleObj){
+							arr.push(key + ":" + styleObj[key]);
+						}
+						console.log("现在的arr: " + arr);
+						arr = arr.join(";");
+						console.log("之后的arr: " + arr);
+						el.style.cssText = arr;
+					}
+				},
+				focus:{
+					inserted(el,binding){
+						el.focus();
+					}
+				}
+			}
+
+		})
+	</script>
+</body>
+</html>
