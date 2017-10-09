@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue为已有对象赋予多个新的属性</title>
+	<script src="../vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<button @click="getAge">get</button>
+		<button @click="setAge">set</button>
+		<button @click="changeAge">change</button>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data: function(){
+				return {
+					user:{
+						name: 'sb'
+					}
+				}
+			},
+			methods:{
+				getAge:function(){
+					console.log("姓名：" + this.user.name + "年龄：" + this.user.age);
+				},
+				setAge:function(){
+					this.$set(this.user,'age',22);
+					console.log("设置姓名：" + this.user.name + "年龄：" + this.user.age)
+				},
+				changeAge:function(){
+					this.user = Object.assign({},this.user,{
+						home:'beijing',
+						favorite:'color'
+					});
+					console.log(this.user);
+				}
+			}
+		})
+		Vue.set(vm.user,'age',27);
+		console.log(vm.user);
+	</script>
+</body>
+</html>
