@@ -33,7 +33,7 @@
 							<a href="" class="button">立即购买</a>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 <script>
 	export default {
 		created:function(){
-			this.$http.post('getList',{userId:123})
+			this.$http.get('api/getNewsList')
 			.then(function(data){
 				console.log(data)
 			},function(err){
