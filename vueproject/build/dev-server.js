@@ -96,17 +96,47 @@ devMiddleware.waitUntilValid(() => {
     _resolve()
   })
 })
-var jsonServer = require('json-server')
-var apiServer = jsonServer.create();
-var apiRouter = jsonServer.router('db.json')
-var middlewares = jsonServer.defaults()
+// var jsonServer = require('json-server') //引入json-server
+// var apiServer = jsonServer.create()
+// var apiRouter = jsonServer.router('db.json')
+// var middlewares = jsonServer.defaults()
+// apiServer.use(middlewares)
+// apiServer.use('/api',apiRouter)
 
-apiServer.use(middlewares)
-apiServer.use(apiRouter)
-apiServer.listen(port + 1,function(){
-  console.log('JSON server is running')
+// apiServer.listen(port + 1,function(){
+//   console.log('JSON server is running')
+// })
+var apiServer = express()
+var bodyParser = require('body-parser')
+apiServer.use(bodyParser.urlencoded({ extended: true}))
+apiServer.use(bodyParser.json())
+var apiRouter = express.Router()
+var fs = require('fs')
+apiRouter.get('/',function(req,res){
+  res.json({ message: 'hooray! welcome to our api'})
+});
+apiRouter.route('/:apiName')
+.all(function(req,res){
+  fs.readFile('./db.json','utf8',function(err,data){
+    if (err) throw err
+    var data = JSON.parse(data)
+    if(data[req.params.apiName]){
+      res.json(data[req.params.apiName])
+    }
+    else{
+      res.send('no such api name')
+    }
+  })
 })
 
+apiServer.use('/api',apiRouter)
+apiServer.listen(port + 1,function(err){
+  if(err){
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost: ' + port)
+})
 module.exports = {
   ready: readyPromise,
   close: () => {

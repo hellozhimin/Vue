@@ -18,12 +18,13 @@
 				<h2>最新消息</h2>
 				<ul>
 					<li v-for="item in newsList">
-						<a :href="item.url">{{item.title}}</a>
+						<a :href="item.url" class="new-item">{{ item.title }}</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 		<div class="index-right">
+			<slide-show :slides="slides"></slide-show>
 			<div class="index-board-list">
 				<div class="index-board-item" v-for="(item,index) in boardList" :class="[{'line-last':index % 2 !== 0},'index-board-' + item.id]">
 					<div class="index-board-item-inner">
@@ -40,17 +41,44 @@
 	</div>
 </template>
 <script>
+	import slideShow from '../components/slideShow'
 	export default {
+		components:{
+			slideShow
+		},
 		created:function(){
-			this.$http.get('api/getNewsList')
-			.then(function(data){
-				console.log(data)
-			},function(err){
+			this.$http.post('api/getNewsList')
+			.then((res) => {
+				console.log(res.data)
+				this.newsList = res.data;
+			},(err) => {
 				console.log(err)
 			})
 		},
 		data () {
 			return {
+				slides:[
+					{
+						src: require('../assets/slideShow/pic1.jpg'),
+						title:'xxx1',
+						href:'detail/analysis'
+					},
+					{
+						src: require('../assets/slideShow/pic2.jpg'),
+						title:'xxx2',
+						href:'detail/analysis'
+					},
+					{
+						src: require('../assets/slideShow/pic3.jpg'),
+						title:'xxx3',
+						href:'detail/analysis'
+					},
+					{
+						src: require('../assets/slideShow/pic4.jpg'),
+						title:'xxx4',
+						href:'detail/analysis'
+					}
+				],
 				boardList: [
 				       {
 				         title: '开放产品',
@@ -81,24 +109,7 @@
 				         saleout: false
 				       }
 				],
-				newsList: [
-					{
-					  title: '数据统计',
-					  url: 'http://starcraft.com'
-					},
-					{
-					  title: '数据预测',
-					  url: 'http://warcraft.com'
-					},
-					{
-					  title: '流量分析',
-					  url: 'http://overwatch.com'
-					},
-					{
-					  title: '广告发布',
-					  url: 'http://hearstone.com'
-					}
-				],
+				newsList: [],
 				productList:{
 					pc:{
 						title:'PC产品',
@@ -237,15 +248,11 @@
 	  background: red;
 	  color: #fff;
 	}
-	.new-item {
-	  display: inline-block;
-	  width: 230px;
-	  overflow: hidden;
-	  text-overflow: ellipsis;
-	  white-space: nowrap;
-	}
-	.hot-tag{
-		background: red;
-		color:#fff;
+	.new-item{
+		display:inline-block;
+		width:230px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>
