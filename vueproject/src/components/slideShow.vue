@@ -1,5 +1,5 @@
 <template>
-	<div class="slide-show">
+	<div class="slide-show" @mouseover="clearInv" @mouseout="runInv">
 		<div class="slide-img">
 			<a :href="slides[nowIndex].href">
 				<img :src="slides[nowIndex].src">
@@ -9,7 +9,7 @@
 		<ul class="slide-pages">
 			<li @click="goPre">&lt;</li>
 			<li v-for="(item,index) in slides" @click="goto(index)">
-				<a>{{index + 1}}</a>
+				<a :class="{on: index === nowIndex}">{{index + 1}}</a>
 			</li>
 			<li @click="goNext">&gt;</li>
 		</ul>
@@ -21,33 +21,66 @@
 			slides:{
 				type:Array,
 				default:[]
-			}
+			},
+      inv: {
+        type:Number,
+        default:1000
+      }
 		},
 		data () {
 			return {
 				nowIndex:0
 			}
 		},
+    computed: {
+      prevIndex () {
+        if(this.nowIndex === 0){
+          return this.slides.length - 1
+        }
+        else {
+          return this.nowIndex - 1
+        }
+      },
+      nextIndex () {
+        if(this.nowIndex === this.slides.length - 1){
+          return 0
+        }
+        else {
+          return this.nowIndex + 1
+        }
+      }
+    },
 		methods:{
 			goto (index) {
 				this.nowIndex = index
 				console.log("值是： " + this.nowIndex)
 			},
 			goPre () {
-				if(this.nowIndex > 0){
-					this.nowIndex = this.nowIndex-1;
+				if(this.nowIndex === 0){
+          this.nowIndex = this.slides.length - 1;
 				}else{
-					this.nowIndex = 3;
+          this.nowIndex = this.nowIndex - 1;
 				}
 			},
 			goNext () {
-				if(this.nowIndex < 3){
-					this.nowIndex = this.nowIndex+1;
-				}else{
+				if(this.nowIndex === this.slides.length - 1){
 					this.nowIndex = 0;
+				}else{
+					this.nowIndex = this.nowIndex + 1;
 				}
-			}
-		}
+			},
+      runInv () {
+        this.invId = setInterval(() => {
+          this.goNext()
+        },this.inv)
+      },
+      clearInv () {
+        clearInterval(this.invId)
+      }
+		},
+    mounted () {
+      this.runInv()
+    }
 	}
 </script>
 <style scoped>
