@@ -2,16 +2,21 @@
 	<div class="slide-show" @mouseover="clearInv" @mouseout="runInv">
 		<div class="slide-img">
 			<a :href="slides[nowIndex].href">
-				<img :src="slides[nowIndex].src">
+				<transition name="slide-trans">
+					<img v-if="isShow" :src="slides[nowIndex].src">
+				</transition>
+				<transition name="slide-trans-old">
+					<img v-if="!isShow" :src="slides[nowIndex].src">
+				</transition>
 			</a>
 		</div>
 		<h2>{{ slides[nowIndex].title }}</h2>
 		<ul class="slide-pages">
-			<li @click="goPre">&lt;</li>
+			<li @click="goto(prevIndex)">&lt;</li>
 			<li v-for="(item,index) in slides" @click="goto(index)">
 				<a :class="{on: index === nowIndex}">{{index + 1}}</a>
 			</li>
-			<li @click="goNext">&gt;</li>
+			<li @click="goto(nextIndex)">&gt;</li>
 		</ul>
 	</div>
 </template>
@@ -22,65 +27,74 @@
 				type:Array,
 				default:[]
 			},
-      inv: {
-        type:Number,
-        default:1000
-      }
+      		inv: {
+        		type:Number,
+        		default:1000
+      		}
 		},
 		data () {
 			return {
-				nowIndex:0
+				nowIndex:0,
+				isShow:true
 			}
 		},
-    computed: {
-      prevIndex () {
-        if(this.nowIndex === 0){
-          return this.slides.length - 1
-        }
-        else {
-          return this.nowIndex - 1
-        }
-      },
-      nextIndex () {
-        if(this.nowIndex === this.slides.length - 1){
-          return 0
-        }
-        else {
-          return this.nowIndex + 1
-        }
-      }
-    },
+    	computed: {
+      		prevIndex () {
+        		if(this.nowIndex === 0){
+         		 	return this.slides.length - 1
+       		 	}
+      	   		else {
+         		 	return this.nowIndex - 1
+        		}
+      		},
+        	nextIndex () {
+       	    	if(this.nowIndex === this.slides.length - 1){
+          			return 0
+       		 	}
+        		else {
+         		 	return this.nowIndex + 1
+        		}
+      		}
+    	},
 		methods:{
 			goto (index) {
-				this.nowIndex = index
-				console.log("值是： " + this.nowIndex)
+				this.isShow = false
+				setTimeout(() => {
+					this.isShow = true
+					this.nowIndex = index;
+					console.log("值是： " + this.nowIndex)
+					this.$emit('onchange',index)
+				},10)
 			},
-			goPre () {
-				if(this.nowIndex === 0){
-          this.nowIndex = this.slides.length - 1;
-				}else{
-          this.nowIndex = this.nowIndex - 1;
-				}
-			},
-			goNext () {
-				if(this.nowIndex === this.slides.length - 1){
-					this.nowIndex = 0;
-				}else{
-					this.nowIndex = this.nowIndex + 1;
-				}
-			},
-      runInv () {
-        this.invId = setInterval(() => {
-          this.goNext()
-        },this.inv)
-      },
-      clearInv () {
-        clearInterval(this.invId)
-      }
+			/*
+			* 现在修改为在computed中调用方法
+			 */
+			// goPre () {
+			// 	if(this.nowIndex === 0){
+   //       			 this.nowIndex = this.slides.length - 1;
+			// 	}else{
+   //       			 this.nowIndex = this.nowIndex - 1;
+			// 	}
+			// },
+			// goNext () {
+			// 	if(this.nowIndex === this.slides.length - 1){
+			// 		this.nowIndex = 0;
+			// 	}else{
+			// 		this.nowIndex = this.nowIndex + 1;
+			// 	}
+			// },
+      		runInv () {
+        		this.invId = setInterval(() => {
+          			this.goto(this.nextIndex)
+       		   },this.inv)
+      		},
+     		 clearInv () {
+        		clearInterval(this.invId)
+      		}
 		},
-    mounted () {
-      this.runInv()
-    }
+   		 mounted () {
+     		 this.runInv()
+   		 }
 	}
 </script>
 <style scoped>
