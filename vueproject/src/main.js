@@ -5,6 +5,7 @@ import VRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Layout from './components/layout'
 import IndexPage from './pages/index'
+import DetailPage from './pages/detail'
 
 Vue.use(VRouter)
 Vue.use(VueResource)
@@ -16,6 +17,10 @@ let router = new VRouter({
 		{
 			path:'/',
 			component:IndexPage
+		},
+		{
+			path:'/detail',
+			component:DetailPage
 		}
 	]
 
